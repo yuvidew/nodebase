@@ -37,7 +37,7 @@ export const SignUpForm = ({
     className,
     ...props
 }: React.ComponentProps<"div">) => {
-    // TODO: impl.. a github and google authentication
+    // TODO: impl.. a github and google authentication and change the eye to button also sign and  sign up api call thinks
     const [isEyeOpen, setIsEyeOpen] = useState(false);
 
     const form = useForm<z.infer<typeof SignUpSchema>>({
