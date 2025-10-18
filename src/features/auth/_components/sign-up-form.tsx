@@ -127,8 +127,7 @@ export const SignUpForm = ({
                                                             id="password"
                                                             type={isEyeOpen ? "text" : "password"}
                                                             placeholder={"••••••••"}
-                                                            value={field.value}
-                                                            onChange={field.onChange}
+                                                            {...field}
                                                             required
                                                         />
                                                         <span onClick={() => setIsEyeOpen(!isEyeOpen)}>
