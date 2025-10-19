@@ -1,0 +1,8 @@
+ERROR [portable_pty::win::psuedocon] CreateProcessW `"C:\\nvm4w\\nodejs\\npm run inngest:dev\0"` in cwd `Some("E:\\Ai.Project(MERN + React native + Next js)\\nodebase\0")` failed: %1 is not a valid Win32 application. (os error 193)
+ERROR [portable_pty::win::psuedocon] CreateProcessW `"C:\\nvm4w\\nodejs\\npm run dev\0"` in cwd `Some("E:\\Ai.Project(MERN + React native + Next js)\\nodebase\0")` failed: %1 is not a valid Win32 application. (os error 193)
+ERROR [mprocs::error] Error: channel closed
+ERROR [mprocs::error] Error: channel closed
+ERROR [portable_pty::win::psuedocon] CreateProcessW `"C:\\nvm4w\\nodejs\\npm run inngest:dev\0"` in cwd `Some("E:\\Ai.Project(MERN + React native + Next js)\\nodebase\0")` failed: %1 is not a valid Win32 application. (os error 193)
+ERROR [portable_pty::win::psuedocon] CreateProcessW `"C:\\nvm4w\\nodejs\\npm run dev\0"` in cwd `Some("E:\\Ai.Project(MERN + React native + Next js)\\nodebase\0")` failed: %1 is not a valid Win32 application. (os error 193)
+ERROR [mprocs::error] Error: channel closed
+ERROR [mprocs::error] Error: channel closed
