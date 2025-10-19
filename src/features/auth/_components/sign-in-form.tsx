@@ -20,10 +20,11 @@ import {
     FormMessage,
 } from "@/components/ui/form";
 import { Eye, EyeOff } from "lucide-react";
-// import { useSignIn } from "../api/use-sign-in";
-// import { loginSchema } from "../schemas";
-// import Spinner from "@/components/Spinner";
-// import { signUpWithGithub, signUpWithGoogle } from "@/lib/oauth";
+import { toast } from "sonner";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
+import { Spinner } from "@/components/ui/spinner";
+
 
 const SignInSchema = z.object({
     email: z.string().email("Invalid email address"),
@@ -32,13 +33,15 @@ const SignInSchema = z.object({
         .min(6, { message: "Password must be at least 6 characters long" }),
 });
 
+type SignInFormValue = z.infer<typeof SignInSchema>
+
 export const SignInForm = ({
     className,
     ...props
 }: React.ComponentProps<"div">) => {
-    // TODO: impl.. a github and google authentication and change the eye to button also sign and  sign up api call thinks
+    const router = useRouter()
+
     const [isEyeOpen, setIsEyeOpen] = useState(false);
-    // const { mutate, isPending } = useSignIn();
     const form = useForm<z.infer<typeof SignInSchema>>({
         resolver: zodResolver(SignInSchema),
         defaultValues: {
@@ -47,9 +50,38 @@ export const SignInForm = ({
         },
     });
 
-    const onSubmit = () => {
-        // mutate({ json });
+    const onSubmit = async(value: SignInFormValue) => {
+        let handledError = false;
+
+        try {
+            await authClient.signIn.email(
+                {
+                    email: value.email,
+                    password: value.password,
+                    callbackURL: "/"
+                },
+                {
+                    onSuccess: () => {
+                        toast.success("Sign in successfully")
+                        router.push("/")
+                    },
+                    onError: (ctx) => {
+                        handledError = true;
+                        toast.error(ctx.error.message)
+                    }
+                }
+            )
+        } catch (error) {
+
+            if (!handledError) {
+                const message = error instanceof Error
+                    ? error.message
+                    : "Something went wrong. Please try again."
+                toast.error(message)
+            }
+        } 
     };
+    const isPending = form.formState.isSubmitting;
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -119,26 +151,25 @@ export const SignInForm = ({
                                         )}
                                     />
                                 </div>
-                                <Button 
-                                    // disabled={isPending} 
-                                    type="submit" 
+                                <Button
+                                    disabled={isPending} 
+                                    type="submit"
                                     className="w-full"
                                 >
-                                    {/* {isPending ? <Spinner color="default" /> : "Sign in"} */}
+                                    {isPending ? <Spinner /> : "Sign in"}
 
-                                    Sign in
                                 </Button>
-                                <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t hidden">
+                                <div className="after:border-border relative text-center text-sm after:absolute after:inset-0 after:top-1/2 after:z-0 after:flex after:items-center after:border-t ">
                                     <span className="bg-card text-muted-foreground relative z-10 px-2">
                                         Or continue with
                                     </span>
                                 </div>
                                 <div className=" grid-cols-2 gap-4 grid">
-                                    <Button 
-                                        variant="outline" 
-                                        type="button" 
+                                    <Button
+                                        variant="outline"
+                                        type="button"
                                         className="w-full"
-                                        // onClick={() => signUpWithGoogle()}
+                                    // onClick={() => signUpWithGoogle()}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             {" "}
@@ -149,11 +180,11 @@ export const SignInForm = ({
                                         </svg>
                                         <span className="sr-only">Login with Github</span>
                                     </Button>
-                                    <Button 
-                                        variant="outline" 
-                                        type="button" 
+                                    <Button
+                                        variant="outline"
+                                        type="button"
                                         className="w-full"
-                                        // onClick={() => signUpWithGithub()}
+                                    // onClick={() => signUpWithGithub()}
                                     >
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                             <path
