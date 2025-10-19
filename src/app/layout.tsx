@@ -4,6 +4,7 @@ import "./globals.css";
 import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -29,10 +30,12 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TRPCReactProvider>
-        {children}
-        <Toaster/>
-        </TRPCReactProvider>
+
+          <TRPCReactProvider
+          >
+          {children}
+          <Toaster/>
+          </TRPCReactProvider>
       </body>
     </html>
   );
