@@ -8,6 +8,7 @@ export const auth = betterAuth({
         provider: "postgresql", 
     }),
     emailAndPassword : {
-        enabled : true
+        enabled : true,
+        autoSignIn : true // user can auto sign in if user is register
     }
 });
