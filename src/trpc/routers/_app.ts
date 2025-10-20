@@ -2,7 +2,23 @@
 import { inngest } from '@/inngest/client';
 import { protectedProcedure, createTRPCRouter } from '../init';
 import prisma from '@/lib/db';
+import { google } from '@ai-sdk/google';
+import { generateText } from 'ai';
+
 export const appRouter = createTRPCRouter({
+
+    textAI: protectedProcedure.mutation(async () => {
+        await inngest.send({
+            name : "execute/ai",
+        })
+
+        return {
+            success: true,
+            message: "Job queued"
+        }
+
+    }),
+
     getWorkflows: protectedProcedure.query(({ ctx }) => {
         // console.log({user_id : ctx.auth.user.id});
 
@@ -10,24 +26,17 @@ export const appRouter = createTRPCRouter({
         return prisma.workflow.findMany();
     }),
 
-    createWorkflow : protectedProcedure.mutation(async () => {
+    createWorkflow: protectedProcedure.mutation(async () => {
         await inngest.send({
-            name : "test/hello.world",
-            data : {
-                email : "yuvi@gmall.com",
+            name: "test/hello.world",
+            data: {
+                email: "yuvi@gmall.com",
             },
         });
 
-        
-        // return prisma.workflow.create({
-        //     data : {
-        //         name : "text-workflow"
-        //     }
-        // })
-
         return {
-            success : true,
-            message : "Job queued"
+            success: true,
+            message: "Job queued"
         }
     })
 
