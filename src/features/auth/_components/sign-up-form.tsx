@@ -90,11 +90,8 @@ export const SignUpForm = ({
 
     return (
         <div className={cn("flex flex-col gap-6", className)} {...props}>
-            <Card className="overflow-hidden p-0">
-                <CardContent className="grid p-0 md:grid-cols-2">
                     <Form {...form}>
                         <form
-                            className="p-6 md:p-8"
                             onSubmit={(e) => {
                                 e.preventDefault();
                                 form.handleSubmit(onSubmit)();
@@ -198,7 +195,7 @@ export const SignUpForm = ({
                                                 d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.21 11.39.6.11.82-.26.82-.58 0-.29-.01-1.06-.02-2.08-3.34.73-4.05-1.61-4.05-1.61-.55-1.39-1.33-1.76-1.33-1.76-1.09-.75.08-.73.08-.73 1.2.08 1.84 1.24 1.84 1.24 1.07 1.84 2.81 1.3 3.5 1 .11-.78.42-1.3.76-1.6-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.12-.3-.54-1.53.12-3.18 0 0 1.01-.32 3.3 1.23.95-.27 1.97-.4 3-.4s2.05.13 3 .4c2.29-1.55 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.77.84 1.24 1.91 1.24 3.22 0 4.6-2.8 5.62-5.48 5.92.43.38.81 1.1.81 2.22 0 1.61-.02 2.92-.02 3.31 0 .32.21.7.82.58A12 12 0 0024 12c0-6.63-5.37-12-12-12z"
                                             />{" "}
                                         </svg>
-                                        <span className="sr-only">Login with Github</span>
+                                        <span className="text-sm">Login with Github</span>
                                     </Button>
                                     <Button variant="outline" type="button" className="w-full">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
@@ -207,7 +204,7 @@ export const SignUpForm = ({
                                                 fill="currentColor"
                                             />
                                         </svg>
-                                        <span className="sr-only">Login with Google</span>
+                                        <span className="text-sm">Login with Google</span>
                                     </Button>
                                 </div>
                                 <div className="text-center text-sm">
@@ -222,17 +219,6 @@ export const SignUpForm = ({
                             </div>
                         </form>
                     </Form>
-                    <div className="bg-muted relative hidden md:block">
-                        <Image
-                            src={"/auth.jpeg"}
-                            className=" w-full h-full object-cover"
-                            alt="auth page"
-                            width={500}
-                            height={500}
-                        />
-                    </div>
-                </CardContent>
-            </Card>
             <div className="text-muted-foreground *:[a]:hover:text-primary text-center text-xs text-balance *:[a]:underline *:[a]:underline-offset-4">
                 By clicking continue, you agree to our <a href="#">Terms of Service</a>{" "}
                 and <a href="#">Privacy Policy</a>.

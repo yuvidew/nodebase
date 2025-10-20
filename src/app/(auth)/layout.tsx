@@ -12,7 +12,7 @@ export default function AuthLayout({
             <div className=" absolute top-3 w-full px-4 flex items-center justify-between">
                 <Logo/>
             </div>
-            <div className="w-full max-w-sm md:max-w-3xl">
+            <div className="w-full max-w-sm ">
                 {children}
             </div>
         </div>
