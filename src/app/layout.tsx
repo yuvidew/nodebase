@@ -28,14 +28,13 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
+        suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-
-          <TRPCReactProvider
-          >
+        <TRPCReactProvider>
           {children}
-          <Toaster/>
-          </TRPCReactProvider>
+          <Toaster />
+        </TRPCReactProvider>
       </body>
     </html>
   );
