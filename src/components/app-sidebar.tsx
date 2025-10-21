@@ -12,14 +12,13 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { Logo } from "./logo"
 import { CreditCardIcon, FolderOpenIcon, HistoryIcon, KeyIcon, LogOutIcon, StarIcon, WorkflowIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
 import { useState } from "react"
 import { Spinner } from "./ui/spinner"
-import { Button } from "./ui/button"
+import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscriptions"
 
 const menu_Items = [
     {
@@ -45,7 +44,8 @@ const menu_Items = [
 ]
 
 export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
-    const [isLoading, setIsLoading] = useState(false)
+    const {hasActiveSubscription , isLoading} = useHasActiveSubscription()
+    const [isSignOutLoading, setIsSignOutLoading] = useState(false)
 
     const router = useRouter()
     const pathname = usePathname();
@@ -53,7 +53,7 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
 
 
     const onSignOut = async () => {
-        setIsLoading(true)
+        setIsSignOutLoading(true)
         try {
 
             await authClient.signOut({
@@ -64,9 +64,9 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                 }
             })
         } catch {
-            setIsLoading(false)
+            setIsSignOutLoading(false)
         } finally {
-            setIsLoading(false)
+            setIsSignOutLoading(false)
         }
     }
 
@@ -119,21 +119,25 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                 ))}
             </SidebarContent>
             <SidebarFooter>
-                <SidebarMenuItem>
-                    <SidebarMenuButton
-                        tooltip={"Upgrade to Pro"}
-                        className="gap-x-4 h-10 px-4"
-                        onClick={() => { }}
-                    >
-                        <StarIcon className=" size-4" />
-                        <span>Upgrade to Pro</span>
-                    </SidebarMenuButton>
-                </SidebarMenuItem>
+                {!hasActiveSubscription && !isLoading && (
+                    <SidebarMenuItem>
+                        <SidebarMenuButton
+                            tooltip={"Upgrade to Pro"}
+                            className="gap-x-4 h-10 px-4"
+                            onClick={() => authClient.checkout({
+                                slug : "nodebase-pro"
+                            })}
+                        >
+                            <StarIcon className=" size-4" />
+                            <span>Upgrade to Pro</span>
+                        </SidebarMenuButton>
+                    </SidebarMenuItem>
+                )}
                 <SidebarMenuItem>
                     <SidebarMenuButton
                         tooltip={"Billing Portal"}
                         className="gap-x-4 h-10 px-4"
-                        onClick={() => { }}
+                        onClick={() => authClient.customer.portal()}
                     >
                         <CreditCardIcon className=" size-4" />
                         <span>Billing Portal</span>
@@ -146,7 +150,7 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                         className="gap-x-4 h-10 px-4"
                         onClick={onSignOut}
                     >
-                        {isLoading ? <Spinner className="text-primary" /> : <LogOutIcon className=" size-4" />}
+                        {isSignOutLoading ? <Spinner className="text-primary" /> : <LogOutIcon className=" size-4" />}
                         <span>Sign out</span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
