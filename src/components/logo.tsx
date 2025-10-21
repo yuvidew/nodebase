@@ -11,7 +11,6 @@ export const Logo = () => {
     const router = useRouter();
     const isMobile = useIsMobile();
 
-    console.log("is mobile mode" , isMobile);
 
     return (
         <div className=' flex items-center gap-x-3 data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"'>
