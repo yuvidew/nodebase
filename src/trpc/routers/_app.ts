@@ -2,8 +2,8 @@
 import { inngest } from '@/inngest/client';
 import { protectedProcedure, createTRPCRouter } from '../init';
 import prisma from '@/lib/db';
-import { google } from '@ai-sdk/google';
-import { generateText } from 'ai';
+// import { google } from '@ai-sdk/google';
+// import { generateText } from 'ai';
 
 export const appRouter = createTRPCRouter({
 
