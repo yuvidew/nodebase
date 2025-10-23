@@ -1,5 +1,5 @@
 import React, { Suspense } from 'react';
-import { WorkflowsContainer, WorkflowsList } from '@/features/workflows/_components/workflows';
+import { WorkflowsContainer, WorkflowsError, WorkflowsList, WorkflowsLoading } from '@/features/workflows/_components/workflows';
 import { prefetchWorkflows } from '@/features/workflows/server/prefetch';
 import { requireAuth } from '@/lib/auth-utils';
 import { HydrateClient } from '@/trpc/server';
@@ -11,6 +11,11 @@ type Props = {
     searchParams : Promise<SearchParams>
 }
 
+/**
+ * Server-side workflows page that preloads data and renders with suspense boundaries.
+ * @param {Props} props Component properties.
+ * @param {Promise<SearchParams>} props.searchParams Incoming search params promise from the route.
+ */
 const WorkflowPage = async ({searchParams} : Props) => {
     await requireAuth();
 
@@ -20,8 +25,8 @@ const WorkflowPage = async ({searchParams} : Props) => {
     return (
         <WorkflowsContainer>
             <HydrateClient>
-                <ErrorBoundary fallback={<>Error</>}>
-                    <Suspense fallback={<>Loading...</>}>
+                <ErrorBoundary fallback={<WorkflowsError/>}>
+                    <Suspense fallback={<WorkflowsLoading/>}>
                         <WorkflowsList />
                     </Suspense>
                 </ErrorBoundary>

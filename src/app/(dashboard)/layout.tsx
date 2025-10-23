@@ -7,7 +7,7 @@ const DashboardLayout = ({children} : {children : ReactNode}) => {
         <SidebarProvider>
             <AppSidebar/>
             <SidebarInset className=' bg-accent/20'>
-                <div>{children}</div>   
+                {children} 
             </SidebarInset>
         </SidebarProvider>
     )
