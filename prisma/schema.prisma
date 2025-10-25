@@ -89,6 +89,8 @@ model workflow {
 
 enum NodeType {
   INITIAL
+  MANUAL_TRIGGER
+  HTTP_REQUEST
 }
 
 model Node {
@@ -127,3 +129,4 @@ model Connection {
 
   @@unique([fromNodeId, toNodeId, fromOutput, toInput])
 }
+
