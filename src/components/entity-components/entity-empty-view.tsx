@@ -16,7 +16,7 @@ import { Spinner } from "../ui/spinner";
 interface Props {
     onNew?: () => void;
     message: string;
-    isLoading? : boolean
+    isLoading?: boolean
 }
 
 /**
@@ -41,13 +41,22 @@ export const EntityEmptyView = ({
             </EmptyHeader>
             {!!onNew && (
                 <EmptyContent>
-                    <Button onClick={onNew} disabled = {isLoading}>
+                    <Button onClick={onNew} disabled={isLoading}>
                         {isLoading ?
-                            <Spinner className=" size-4" /> 
-                            : 
-                            <PlusIcon className="size-4" />
+                            (
+                                <>
+                                    <Spinner className=" size-4" />
+                                    Adding...
+                                </>
+                            )
+                            :
+                            (
+                                <>
+                                    <PlusIcon className="size-4" />
+                                    Add item
+                                </>
+                            )
                         }
-                        Add item
                     </Button>
                 </EmptyContent>
             )}

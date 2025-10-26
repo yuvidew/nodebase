@@ -15,7 +15,7 @@ export const InitialNode = memo((props: NodeProps) => {
     const [open, setOpen] = useState(false)
     return (
         <NodeSelector open={open} onOpenChange={setOpen}>
-            <WorkflowNode showToolbar name="new node" description="Create a node">
+            <WorkflowNode showToolbar = {false}>
                 <PlaceholderNode
                     {...props}
                     onClick={() => setOpen(true)}
