@@ -99,7 +99,7 @@ export const WorkflowsHeader = ({ disabled }: { disabled?: boolean }) => {
                 onNew={onCreate}
                 disabled={disabled}
                 isCreating={isPending}
-                newButtonLabel='New workflow'
+                newButtonLabel={isPending ? "Creating..." :'New workflow '}
             />
         </>
     );
