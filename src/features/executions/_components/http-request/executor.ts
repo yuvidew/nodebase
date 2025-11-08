@@ -1,11 +1,17 @@
+import Handlebars from "handlebars";
 import type { NodeExecutor } from "@/features/executions/types";
 import { NonRetriableError } from "inngest";
-import ky, { type Options as KyOptions} from "ky"
+import ky, { type Options as KyOptions} from "ky";
+
+Handlebars.registerHelper("json", (context) => {
+    const jsonStringified = JSON.stringify(context, null, 2);
+    return new Handlebars.SafeString(jsonStringified);
+});
 
 type HttpRequestData = {
-    variableName? : string;
-    endpoint? : string;
-    method? : "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
+    variableName : string;
+    endpoint : string;
+    method : "GET" | "POST" | "PUT" | "PATCH" | "DELETE";
     body? : string;
 };
 
@@ -25,18 +31,26 @@ export const httpRequestExecutor:NodeExecutor<HttpRequestData> = async({
     if (!data.variableName) {
         // TODO:Publish error state for http request
 
-        throw new NonRetriableError("Variable name not configured");
+        throw new NonRetriableError("HTTP Request node: Variable name not configured");
+    };
+
+    if (!data.method) {
+        // TODO:Publish error state for http request
+
+        throw new NonRetriableError("HTTP Request node: Method not configured");
     };
 
     const result = await step.run("http-request", async () => {
-        const endpoint = data.endpoint!;
-        const method = data.method || "GET";
+        const endpoint = Handlebars.compile(data.endpoint)(context);
+        const method = data.method;
 
 
         const options: KyOptions =  {method};
 
         if (["POST", "PUT", "PATCH"].includes(method)) {
-            options.body = data.body;
+            const resolved = Handlebars.compile(data.body ||  "{}")(context);
+            JSON.parse(resolved);
+            options.body = resolved;
             options.headers = {
                 "Content-Type" : "application/json",
             }
@@ -59,7 +73,7 @@ export const httpRequestExecutor:NodeExecutor<HttpRequestData> = async({
         
         return {
             ...context,
-            [data.variableName!] : responsePayLoad
+            [data.variableName] : responsePayLoad
         };
 
     });
