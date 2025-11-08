@@ -3,7 +3,7 @@
 import { ErrorView } from "@/components/entity-components/error-view";
 import { LoadingView } from "@/components/entity-components/loading-view";
 import { useSuspenseWorkflow } from "@/features/workflows/hooks/use-workflows";
-import { useCallback, useState } from "react";
+import { useCallback, useMemo, useState } from "react";
 import {
     ReactFlow,
     applyNodeChanges,
@@ -25,6 +25,8 @@ import { nodeComponents } from "@/config/node-component";
 import { AddNodeButton } from "./add-node-button";
 import { useSetAtom } from "jotai";
 import { editorAtom } from "../store/atoms";
+import { NodeType } from "@/generated/prisma";
+import { ExecuteWorkflowButton } from "./execute-workflow-button";
 
 export const EditorLoading = () => <LoadingView message="Loading editor..." />;
 
@@ -55,6 +57,10 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
         []
     );
 
+    const hasManualTrigger = useMemo(() => {
+        return nodes.some((node) => node.type === NodeType.MANUAL_TRIGGER);
+    }, [nodes])
+
     return (
         <div className="size-full">
             <ReactFlow
@@ -65,22 +71,28 @@ export const Editor = ({ workflowId }: { workflowId: string }) => {
                 onConnect={onConnect}
                 fitView
                 proOptions={{
-                    hideAttribution : true
+                    hideAttribution: true
                 }}
-                nodeTypes = {nodeComponents}
+                nodeTypes={nodeComponents}
                 onInit={setEditor}
                 snapGrid={[10, 10]}
                 snapToGrid
                 panOnScroll
-                panOnDrag = {false}
+                panOnDrag={false}
                 selectionOnDrag
             >
-                <Background/>
-                <Controls/>
-                <MiniMap/>
+                <Background />
+                <Controls />
+                <MiniMap />
                 <Panel position="top-right">
-                    <AddNodeButton/>
+                    <AddNodeButton />
                 </Panel>
+
+                {hasManualTrigger && (
+                    <Panel position="bottom-center">
+                        <ExecuteWorkflowButton workflowId={workflowId}/>
+                    </Panel>
+                )}
             </ReactFlow>
         </div>
     );
