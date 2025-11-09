@@ -1,23 +1,38 @@
 import { NodeType } from "@/generated/prisma";
 import { NodeExecutor } from "../types";
 import { manualTriggerExecutor } from "@/features/triggers/_components/manual-trigger/executor";
-import { httpRequestExecutor } from "../_components/http-request/executor";
-import { googleFromTriggerExecutor } from '@/features/triggers/_components/google-form-trigger/executor';
+import { httpRequestExecutor, type HttpRequestData } from "../_components/http-request/executor";
+import { googleFromTriggerExecutor } from "@/features/triggers/_components/google-form-trigger/executor";
+import { stripeTriggerExecutor } from "@/features/triggers/_components/stripe-trigger/executor";
 
-export const executorRegistry: Record<NodeType, NodeExecutor> = {
-    [NodeType.INITIAL] : manualTriggerExecutor,
-    [NodeType.MANUAL_TRIGGER] : manualTriggerExecutor,
-    [NodeType.HTTP_REQUEST] : httpRequestExecutor, //TODO: fix that issue
-    [NodeType.GOOGLE_FORM_TRIGGER] : googleFromTriggerExecutor, 
+type DefaultNodeData = Record<string, unknown>;
 
+type NodeDataByType = {
+    [NodeType.INITIAL]: DefaultNodeData;
+    [NodeType.MANUAL_TRIGGER]: DefaultNodeData;
+    [NodeType.HTTP_REQUEST]: HttpRequestData;
+    [NodeType.GOOGLE_FORM_TRIGGER]: DefaultNodeData;
+    [NodeType.STRIPE_TRIGGER]: DefaultNodeData;
 };
 
-export const getExecutor = (type: NodeType): NodeExecutor => {
+type ExecutorRegistry = {
+    [TType in keyof NodeDataByType]: NodeExecutor<NodeDataByType[TType]>;
+};
+
+export const executorRegistry: ExecutorRegistry = {
+    [NodeType.INITIAL]: manualTriggerExecutor,
+    [NodeType.MANUAL_TRIGGER]: manualTriggerExecutor,
+    [NodeType.HTTP_REQUEST]: httpRequestExecutor,
+    [NodeType.GOOGLE_FORM_TRIGGER]: googleFromTriggerExecutor,
+    [NodeType.STRIPE_TRIGGER]: stripeTriggerExecutor,
+};
+
+export const getExecutor = <TType extends keyof ExecutorRegistry>(type: TType): ExecutorRegistry[TType] => {
     const executor = executorRegistry[type];
 
     if (!executor) {
-        throw new Error(`No executor found for node type: ${type}`)
-    };
+        throw new Error(`No executor found for node type: ${type}`);
+    }
 
     return executor;
-}
+};

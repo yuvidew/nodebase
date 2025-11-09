@@ -9,6 +9,7 @@
     "lint": "eslint",
     "ngrok:dev": "ngrok http --url=brightly-humane-alpaca.ngrok-free.app 3000",
     "inngest:dev": "inngest-cli dev",
+    "migrate:dev" : "prisma migrate dev ",
     "dev:all": "mprocs"
   },
   "dependencies": {
