@@ -58,6 +58,24 @@ const executionNodes: NodeTypeOption[] = [
         label: "HTTP Request",
         description: "Makes an HTTP request",
         icon: Globe2Icon,
+    },
+    {
+        type: NodeType.GEMINI,
+        label: "Gemini",
+        description: "Uses Google Gemini to generate text",
+        icon: "/gemini.svg",
+    },
+    {
+        type: NodeType.OPENAI,
+        label: "OpenAI",
+        description: "Uses OpenAI to generate text",
+        icon: "/openai.svg",
+    },
+    {
+        type: NodeType.ANTHROPIC,
+        label: "Anthropic",
+        description: "Uses Anthropic to generate text",
+        icon: "/anthropic.svg",
     }
 ]
 

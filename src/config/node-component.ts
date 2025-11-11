@@ -1,5 +1,8 @@
 import { InitialNode } from "@/components/initial-node";
+import { AnthropicNode } from "@/features/executions/_components/anthropic/node";
+import { GeminiNode } from "@/features/executions/_components/gemini/node";
 import { HttpRequestNode } from "@/features/executions/_components/http-request/node";
+import { OpenAINode } from "@/features/executions/_components/openai/node";
 import { GoogleFormTrigger } from "@/features/triggers/_components/google-form-trigger/node";
 import { ManualTriggerBode } from "@/features/triggers/_components/manual-trigger/node";
 import { StripTriggerNode } from "@/features/triggers/_components/stripe-trigger/node";
@@ -14,6 +17,9 @@ export const nodeComponents = {
     [NodeType.MANUAL_TRIGGER] : ManualTriggerBode,
     [NodeType.GOOGLE_FORM_TRIGGER] : GoogleFormTrigger,
     [NodeType.STRIPE_TRIGGER] : StripTriggerNode,
+    [NodeType.GEMINI] : GeminiNode,
+    [NodeType.OPENAI] : OpenAINode,
+    [NodeType.ANTHROPIC] : AnthropicNode,
 } as const satisfies NodeTypes;
 
 export type RegisterNodeType = keyof typeof nodeComponents
