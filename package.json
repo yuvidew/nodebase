@@ -9,7 +9,7 @@
     "lint": "eslint",
     "ngrok:dev": "ngrok http --url=brightly-humane-alpaca.ngrok-free.app 3000",
     "inngest:dev": "inngest-cli dev",
-    "migrate:dev" : "prisma migrate dev ",
+    "migrate:dev": "prisma migrate dev ",
     "dev:all": "mprocs"
   },
   "dependencies": {
@@ -64,6 +64,7 @@
     "dotenv-cli": "^11.0.0",
     "embla-carousel-react": "^8.6.0",
     "handlebars": "^4.7.8",
+    "html-entities": "^2.6.0",
     "inngest": "^3.44.3",
     "input-otp": "^1.4.2",
     "jotai": "^2.15.0",

@@ -23,6 +23,7 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
     nodeId,
     context,
     step,
+    userId,
     publish
 }) => {
     await publish(
@@ -33,15 +34,15 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
     );
 
     if (!data.credentialId) {
-            await publish(
-                anthropicChannel().status({
-                    nodeId,
-                    status: "error",
-                }),
-            );
-    
-            throw new NonRetriableError("Anthropic node: Credential is missing");
-        };
+        await publish(
+            anthropicChannel().status({
+                nodeId,
+                status: "error",
+            }),
+        );
+
+        throw new NonRetriableError("Anthropic node: Credential is missing");
+    };
 
     if (!data.variableName) {
         await publish(
@@ -72,15 +73,23 @@ export const anthropicExecutor: NodeExecutor<AnthropicData> = async ({
 
     const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
-    const credential = await step.run("get-credential" , () => {
+    const credential = await step.run("get-credential", () => {
         return prisma.credential.findUniqueOrThrow({
-            where : {
-                id : data.credentialId,
+            where: {
+                id: data.credentialId,
+                userId,
             },
         });
     });
 
     if (!credential) {
+        await publish(
+            anthropicChannel().status({
+                nodeId,
+                status: "error",
+            }),
+        );
+
         throw new NonRetriableError("Anthropic node: Credential not found");
     };
 

@@ -21,6 +21,7 @@ import {
 import { NodeType } from '@/generated/prisma';
 import { Separator } from '@/components/ui/separator';
 import { toast } from 'sonner';
+import { ScrollArea } from './ui/scroll-area';
 
 export type NodeTypeOption = {
     type: NodeType,
@@ -76,6 +77,19 @@ const executionNodes: NodeTypeOption[] = [
         label: "Anthropic",
         description: "Uses Anthropic to generate text",
         icon: "/anthropic.svg",
+    },
+    {
+        type: NodeType.DISCORD,
+        label: "Discord",
+        description: "Send a message to Discord",
+        icon: "/discord.svg",
+    },
+    
+    {
+        type: NodeType.SLACK,
+        label: "Slack",
+        description: "Send a message to Slack",
+        icon: "/slack.svg",
     }
 ]
 
@@ -153,79 +167,83 @@ export const NodeSelector = ({open, onOpenChange, children}: Props) => {
                 side='right'
                 className='w-full sm:max-w-md overflow-x-auto'
             >
-                <SheetHeader>
-                    <SheetTitle>What trigger this workflow?</SheetTitle>
-                    <SheetDescription>
-                        A trigger is a stop that starts your workflow.
-                    </SheetDescription>
-                </SheetHeader>
-                <div>
-                    {triggerNodes.map((nodeType) => {
-                        const Icon = nodeType.icon;
+                <ScrollArea className=' h-full'>
+                    <div className=' p-2'>
+                        <SheetHeader>
+                            <SheetTitle>What trigger this workflow?</SheetTitle>
+                            <SheetDescription>
+                                A trigger is a stop that starts your workflow.
+                            </SheetDescription>
+                        </SheetHeader>
+                        <div>
+                            {triggerNodes.map((nodeType) => {
+                                const Icon = nodeType.icon;
 
-                        return (
-                            <div 
-                                key={nodeType.type}
-                                className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary'
-                                onClick={() => handleNodeSelect(nodeType)}
-                            >
-                                <div className='flex items-center gap-6 w-full overflow-hidden'>
-                                    {typeof Icon === "string" ? (
-                                        <img
-                                            src={Icon}
-                                            alt={nodeType.label}
-                                            className='size-5 object-contain rounded-sm'
-                                        />
-                                    ) : (
-                                        <Icon className='size-5'/>
-                                    )}
-                                    <div className=' flex flex-col items-start text-left'>
-                                        <span className='font-medium text-sm'>
-                                            {nodeType.label}
-                                        </span>
-                                        <span className=' text-xs text-muted-foreground'>
-                                            {nodeType.description}
-                                        </span>
+                                return (
+                                    <div 
+                                        key={nodeType.type}
+                                        className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary'
+                                        onClick={() => handleNodeSelect(nodeType)}
+                                    >
+                                        <div className='flex items-center gap-6 w-full overflow-hidden'>
+                                            {typeof Icon === "string" ? (
+                                                <img
+                                                    src={Icon}
+                                                    alt={nodeType.label}
+                                                    className='size-5 object-contain rounded-sm'
+                                                />
+                                            ) : (
+                                                <Icon className='size-5'/>
+                                            )}
+                                            <div className=' flex flex-col items-start text-left'>
+                                                <span className='font-medium text-sm'>
+                                                    {nodeType.label}
+                                                </span>
+                                                <span className=' text-xs text-muted-foreground'>
+                                                    {nodeType.description}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
-                <Separator/>
-                <div>
-                    {executionNodes.map((nodeType) => {
-                        const Icon = nodeType.icon;
+                                );
+                            })}
+                        </div>
+                        <Separator/>
+                        <div>
+                            {executionNodes.map((nodeType) => {
+                                const Icon = nodeType.icon;
 
-                        return (
-                            <div 
-                                key={nodeType.type}
-                                className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary'
-                                onClick={() => handleNodeSelect(nodeType)}
-                            >
-                                <div className='flex items-center gap-6 w-full overflow-hidden'>
-                                    {typeof Icon === "string" ? (
-                                        <img
-                                            src={Icon}
-                                            alt={nodeType.label}
-                                            className='size-5 object-contain rounded-sm'
-                                        />
-                                    ) : (
-                                        <Icon className='size-5'/>
-                                    )}
-                                    <div className=' flex flex-col items-start text-left'>
-                                        <span className='font-medium text-sm'>
-                                            {nodeType.label}
-                                        </span>
-                                        <span className=' text-xs text-muted-foreground'>
-                                            {nodeType.description}
-                                        </span>
+                                return (
+                                    <div 
+                                        key={nodeType.type}
+                                        className='w-full justify-start h-auto py-5 px-4 rounded-none cursor-pointer border-l-2 border-transparent hover:border-l-primary'
+                                        onClick={() => handleNodeSelect(nodeType)}
+                                    >
+                                        <div className='flex items-center gap-6 w-full overflow-hidden'>
+                                            {typeof Icon === "string" ? (
+                                                <img
+                                                    src={Icon}
+                                                    alt={nodeType.label}
+                                                    className='size-5 object-contain rounded-sm'
+                                                />
+                                            ) : (
+                                                <Icon className='size-5'/>
+                                            )}
+                                            <div className=' flex flex-col items-start text-left'>
+                                                <span className='font-medium text-sm'>
+                                                    {nodeType.label}
+                                                </span>
+                                                <span className=' text-xs text-muted-foreground'>
+                                                    {nodeType.description}
+                                                </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        );
-                    })}
-                </div>
+                                );
+                            })}
+                        </div>
+                    </div>
+                </ScrollArea>
             </SheetContent>
         </Sheet>
     )
