@@ -9,7 +9,7 @@ import { OPENAI_CHANNEL_NAME } from '@/inngest/channels/openai';
 import { fetchOpenaiRealtimeToken } from './actions';
 
 type OpenAINodeData = {
-    // model? : string;
+    credentialId? : string;
     variableName? :string;
     systemPrompt? :string;
     userPrompt? :string

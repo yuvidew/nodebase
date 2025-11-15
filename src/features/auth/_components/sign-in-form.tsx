@@ -3,9 +3,7 @@ import React, { useState } from "react";
 
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import Image from "next/image";
 import Link from "next/link";
 import z from "zod";
 import { useForm } from "react-hook-form";

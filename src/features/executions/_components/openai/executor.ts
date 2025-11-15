@@ -4,6 +4,7 @@ import { NonRetriableError } from "inngest";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText } from "ai"
 import { openAIChannel } from "@/inngest/channels/openai";
+import prisma from "@/lib/db";
 
 Handlebars.registerHelper("json", (context) => {
     const jsonStringified = JSON.stringify(context, null, 2);
@@ -11,6 +12,7 @@ Handlebars.registerHelper("json", (context) => {
 });
 
 export type OpenAIData = {
+    credentialId?: string;
     variableName?: string;
     systemPrompt?: string;
     userPrompt?: string
@@ -41,6 +43,18 @@ export const openAIExecutor: NodeExecutor<OpenAIData> = async ({
         throw new NonRetriableError("OpenAI node: Variable name is missing");
     };
 
+    
+        if (!data.credentialId) {
+            await publish(
+                openAIChannel().status({
+                    nodeId,
+                    status: "error",
+                }),
+            );
+    
+            throw new NonRetriableError("OpenAI node: Credential is missing");
+        };
+
     if (!data.userPrompt) {
         await publish(
             openAIChannel().status({
@@ -52,7 +66,6 @@ export const openAIExecutor: NodeExecutor<OpenAIData> = async ({
         throw new NonRetriableError("OpenAI node: User prompt is missing");
     };
 
-    // TODO: Throw is credential is missing
 
     const systemPrompt = data.systemPrompt
         ? Handlebars.compile(data.systemPrompt)(context)
@@ -60,12 +73,21 @@ export const openAIExecutor: NodeExecutor<OpenAIData> = async ({
 
     const userPrompt = Handlebars.compile(data.userPrompt)(context);
 
-    // TODO: Fetch credential that user selected
 
-    const credentialValue = process.env.OPENAI_API_KEY!;
+    const credential = await step.run("get-credential" , () => {
+        return prisma.credential.findUniqueOrThrow({
+            where : {
+                id : data.credentialId,
+            },
+        });
+    });
+
+    if (!credential) {
+        throw new NonRetriableError("OpenAI node: Credential not found");
+    };
 
     const openAI = createOpenAI({
-        apiKey: credentialValue,
+        apiKey: credential.value,
     });
 
     try {
