@@ -7,6 +7,8 @@ import { stripeTriggerExecutor } from "@/features/triggers/_components/stripe-tr
 import { geminiExecutor } from "../_components/gemini/executor";
 import { openAIExecutor } from "../_components/openai/executor";
 import { anthropicExecutor } from "../_components/anthropic/executor";
+import { discordExecutor } from "../_components/discord/executor";
+import { slackExecutor } from "../_components/slack/executor";
 
 type DefaultNodeData = Record<string, unknown>;
 
@@ -19,6 +21,8 @@ type NodeDataByType = {
     [NodeType.GEMINI] : DefaultNodeData;
     [NodeType.OPENAI] : DefaultNodeData;
     [NodeType.ANTHROPIC] : DefaultNodeData;
+    [NodeType.DISCORD] : DefaultNodeData;
+    [NodeType.SLACK] : DefaultNodeData;
 };
 
 type ExecutorRegistry = {
@@ -34,6 +38,8 @@ export const executorRegistry: ExecutorRegistry = {
     [NodeType.GEMINI] : geminiExecutor,
     [NodeType.ANTHROPIC] : anthropicExecutor,
     [NodeType.OPENAI] : openAIExecutor,
+    [NodeType.DISCORD] : discordExecutor,
+    [NodeType.SLACK] : slackExecutor,
 };
 
 export const getExecutor = <TType extends keyof ExecutorRegistry>(type: TType): ExecutorRegistry[TType] => {
