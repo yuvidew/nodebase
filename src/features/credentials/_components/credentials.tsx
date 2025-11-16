@@ -30,6 +30,7 @@ export const CredentialsView = () => {
         <EntityEmptyView
             message="You haven't created any credential yet. Get started by creating your first credentials"
             onNew={handleCreate}
+            label='Add credential'
         />
     )
 }

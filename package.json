@@ -9,6 +9,7 @@
     "lint": "eslint",
     "ngrok:dev": "ngrok http --url=brightly-humane-alpaca.ngrok-free.app 3000",
     "inngest:dev": "inngest-cli dev",
+    "prisma:dev" : "npx prisma studio",
     "migrate:dev": "prisma migrate dev ",
     "dev:all": "mprocs"
   },
@@ -60,6 +61,7 @@
     "client-only": "^0.0.1",
     "clsx": "^2.1.1",
     "cmdk": "^1.1.1",
+    "cryptr": "^6.4.0",
     "date-fns": "^4.1.0",
     "dotenv-cli": "^11.0.0",
     "embla-carousel-react": "^8.6.0",
