@@ -48,6 +48,64 @@ export const SignInForm = ({
         },
     });
 
+    const onContinueWithGithub = async () => {
+        let handledError = false;
+        try {
+
+            await authClient.signIn.social(
+                {
+                    provider: "github"
+                },
+                {
+                    onSuccess: () => {
+                        toast.success("Sign in successfully")
+                        router.push("/")
+                    },
+                    onError: (ctx) => {
+                        handledError = true;
+                        toast.error(ctx.error.message)
+                    }
+                }
+            )
+        } catch (error) {
+            if (!handledError) {
+                const message = error instanceof Error
+                    ? error.message
+                    : "Something went wrong. Please try again."
+                toast.error(message)
+            }
+        }
+    }
+
+    const onContinueWithGoogle = async () => {
+        let handledError = false;
+        try {
+
+            await authClient.signIn.social(
+                {
+                    provider: "google"
+                },
+                {
+                    onSuccess: () => {
+                        toast.success("Sign in successfully")
+                        router.push("/")
+                    },
+                    onError: (ctx) => {
+                        handledError = true;
+                        toast.error(ctx.error.message)
+                    }
+                }
+            )
+        } catch (error) {
+            if (!handledError) {
+                const message = error instanceof Error
+                    ? error.message
+                    : "Something went wrong. Please try again."
+                toast.error(message)
+            }
+        }
+    }
+
     const onSubmit = async (value: SignInFormValue) => {
         let handledError = false;
 
@@ -166,7 +224,7 @@ export const SignInForm = ({
                                 variant="outline"
                                 type="button"
                                 className="w-full"
-                            // onClick={() => signUpWithGoogle()}
+                                onClick={onContinueWithGithub}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     {" "}
@@ -181,7 +239,7 @@ export const SignInForm = ({
                                 variant="outline"
                                 type="button"
                                 className="w-full"
-                            // onClick={() => signUpWithGithub()}
+                                onClick={onContinueWithGoogle}
                             >
                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
                                     <path
