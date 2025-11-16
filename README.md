@@ -34,3 +34,7 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Inngest setup
+
+Real-time subscriptions require both the **`INNGEST_EVENT_KEY`** and **`INNGEST_SIGNING_KEY`** environment variables. You can copy these from the Inngest control panel or from the output of `npx inngest-cli dev`; without them, requests such as `getSubscriptionToken` will fail with a 401 error. Add them to your `.env` (or another environment provider) alongside the other credentials before running the app.
