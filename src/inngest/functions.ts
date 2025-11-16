@@ -99,12 +99,27 @@ import { anthropicChannel } from "./channels/anthropic";
 import { discordChannel } from "./channels/discord";
 import { slackChannel } from "./channels/slack";
 
+const DEFAULT_RETRY_COUNT = process.env.NODE_ENV === "production" ? 3 : 0;
+
+// const workflowRetries = (() => {
+//   const override = process.env.INNGEST_WORKFLOW_RETRIES;
+
+//   if (override !== undefined) {
+//     const parsed = Number.parseInt(override, 10);
+
+//     if (!Number.isNaN(parsed) && parsed >= 0) {
+//       return parsed;
+//     }
+//   }
+
+//   return DEFAULT_RETRY_COUNT;
+// })();
 
 
 export const executeWorkflow = inngest.createFunction(
   { 
     id: "execute-workflow",
-    retries : process.env.NODE_ENV === "production"? 3 : 0, 
+    retries : DEFAULT_RETRY_COUNT,
     onFailure : async ({ event}) => {
       return prisma.execution.update({
         where : {
