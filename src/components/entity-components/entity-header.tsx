@@ -7,7 +7,7 @@ import { Spinner } from '../ui/spinner';
 type Props = {
     title: string;
     description?: string;
-    newButtonLabel: string;
+    newButtonLabel?: string;
     disabled?: boolean;
     isCreating?: boolean;
 } & (
