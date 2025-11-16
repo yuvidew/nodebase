@@ -17,6 +17,7 @@ interface Props {
     onNew?: () => void;
     message: string;
     isLoading?: boolean
+    label? : string
 }
 
 /**
@@ -28,7 +29,8 @@ interface Props {
 export const EntityEmptyView = ({
     message,
     onNew,
-    isLoading = false
+    isLoading = false,
+    label = "Add item"
 }: Props) => {
     return (
         <Empty className=" border border-dashed bg-white h-full">
@@ -53,7 +55,7 @@ export const EntityEmptyView = ({
                             (
                                 <>
                                     <PlusIcon className="size-4" />
-                                    Add item
+                                    {label ? label : "Add item"}
                                 </>
                             )
                         }
