@@ -12,13 +12,14 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from "@/components/ui/sidebar"
-import { CreditCardIcon, FolderOpenIcon, HistoryIcon, KeyIcon, LogOutIcon, StarIcon, WorkflowIcon } from "lucide-react"
+import { CreditCardIcon, FolderOpenIcon, HistoryIcon, KeyIcon, LogOutIcon, MoonIcon, StarIcon, SunIcon, WorkflowIcon } from "lucide-react"
 import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { authClient } from "@/lib/auth-client"
 import { useState } from "react"
 import { Spinner } from "./ui/spinner"
 import { useHasActiveSubscription } from "@/features/subscriptions/hooks/use-subscriptions"
+import { useTheme } from "next-themes"
 
 const menu_Items = [
     {
@@ -44,8 +45,9 @@ const menu_Items = [
 ]
 
 export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) => {
-    const {hasActiveSubscription , isLoading} = useHasActiveSubscription()
+    const { hasActiveSubscription, isLoading } = useHasActiveSubscription()
     const [isSignOutLoading, setIsSignOutLoading] = useState(false)
+    const { setTheme, theme } = useTheme();
 
     const router = useRouter()
     const pathname = usePathname();
@@ -75,10 +77,10 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
             <SidebarHeader>
                 <SidebarMenuItem>
                     <SidebarMenuButton asChild tooltip={"Nodebase"}
-                    className="gap-x-4 h-10 px-4 hover:bg-transparent">
+                        className="gap-x-4 h-10 px-4 hover:bg-transparent">
                         <Link href={"/"} prefetch>
                             {/* <Button size={"icon"} > */}
-                                <WorkflowIcon className=" text-primary size-7" />
+                            <WorkflowIcon className=" text-primary size-7" />
                             {/* </Button> */}
                             <span className='  text-lg font-semibold'>
                                 Nodebase
@@ -125,7 +127,7 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                             tooltip={"Upgrade to Pro"}
                             className="gap-x-4 h-10 px-4"
                             onClick={() => authClient.checkout({
-                                slug : "nodebase-pro"
+                                slug: "nodebase-pro"
                             })}
                         >
                             <StarIcon className=" size-4" />
@@ -141,6 +143,20 @@ export const AppSidebar = ({ ...props }: React.ComponentProps<typeof Sidebar>) =
                     >
                         <CreditCardIcon className=" size-4" />
                         <span>Billing Portal</span>
+                    </SidebarMenuButton>
+                </SidebarMenuItem>
+
+                <SidebarMenuItem>
+                    <SidebarMenuButton
+                        tooltip={theme === "light" ? "Light" : "Dark"}
+                        className="gap-x-4 h-10 px-4"
+                        onClick={() => setTheme( theme === "light" ? "dark" : "light")}
+                    >
+                        <>
+                            <SunIcon className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+                            <MoonIcon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+                        </>
+                        <span className=" capitalize">{theme}</span>
                     </SidebarMenuButton>
                 </SidebarMenuItem>
 

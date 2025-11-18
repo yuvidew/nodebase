@@ -194,9 +194,9 @@ export const SignInForm = ({
                                                 />
                                                 <Button type="button" size={"icon"} variant={"default"} className=" bg-transparent hover:bg-transparent border-none outline-0 absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer" onClick={() => setIsEyeOpen(!isEyeOpen)}>
                                                     {isEyeOpen ? (
-                                                        <Eye className=" text-black size-4  " />
+                                                        <Eye className="  size-4  " />
                                                     ) : (
-                                                        <EyeOff className=" text-black size-4 " />
+                                                        <EyeOff className="  size-4 " />
                                                     )}
                                                 </Button>
                                             </div>

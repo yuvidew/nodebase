@@ -5,6 +5,7 @@ import { TRPCReactProvider } from "@/trpc/client";
 import { Toaster } from "sonner";
 import { NuqsAdapter } from 'nuqs/adapters/next/app';
 import { Provider } from 'jotai'
+import { ThemeProvider } from "@/components/providers/theme-provider";
 
 
 const geistSans = Geist({
@@ -22,7 +23,7 @@ export const metadata: Metadata = {
   description:
     "Nodebase is an open-source workflow automation tool powered by Inngest — build event-driven, serverless workflows easily.",
   icons: {
-    icon: "/logo.svg", 
+    icon: "/logo.svg",
   },
 };
 
@@ -32,19 +33,27 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
+    <html lang="en" suppressHydrationWarning>
       <body
         suppressHydrationWarning
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <TRPCReactProvider>
-          <NuqsAdapter>
-            <Provider>
-              {children}
-            </Provider>
-          </NuqsAdapter>
-          <Toaster />
-        </TRPCReactProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+
+          <TRPCReactProvider>
+            <NuqsAdapter>
+              <Provider>
+                {children}
+              </Provider>
+            </NuqsAdapter>
+            <Toaster />
+          </TRPCReactProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

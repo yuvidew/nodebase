@@ -9,7 +9,7 @@
     "lint": "eslint",
     "ngrok:dev": "ngrok http --url=brightly-humane-alpaca.ngrok-free.app 3000",
     "inngest:dev": "dotenv -e .env -- inngest-cli dev",
-    "prisma:dev" : "npx prisma studio",
+    "prisma:dev": "npx prisma studio",
     "migrate:dev": "prisma migrate dev ",
     "dev:all": "mprocs"
   },
