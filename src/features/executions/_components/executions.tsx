@@ -21,6 +21,7 @@ export const ExecutionsView = () => {
     return (
         <EntityEmptyView
             message="You haven't created any executions yet. Get started by running your first workflow"
+            empty_label='No executions'
         />
     )
 }
