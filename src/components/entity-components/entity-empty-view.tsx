@@ -33,7 +33,7 @@ export const EntityEmptyView = ({
     label = "Add item"
 }: Props) => {
     return (
-        <Empty className=" border border-dashed bg-white h-full">
+        <Empty className=" border border-dashed dark:bg-background h-full">
             <EmptyHeader>
                 <EmptyMedia variant="icon">
                     <PackageOpenIcon />
