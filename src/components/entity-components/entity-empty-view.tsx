@@ -16,8 +16,9 @@ import { Spinner } from "../ui/spinner";
 interface Props {
     onNew?: () => void;
     message: string;
-    isLoading?: boolean
-    label? : string
+    isLoading?: boolean;
+    label? : string;
+    empty_label? : string;
 }
 
 /**
@@ -30,7 +31,8 @@ export const EntityEmptyView = ({
     message,
     onNew,
     isLoading = false,
-    label = "Add item"
+    label = "Add item",
+    empty_label = "No items"
 }: Props) => {
     return (
         <Empty className=" border border-dashed dark:bg-background h-full">
@@ -38,7 +40,7 @@ export const EntityEmptyView = ({
                 <EmptyMedia variant="icon">
                     <PackageOpenIcon />
                 </EmptyMedia>
-                <EmptyTitle>No items</EmptyTitle>
+                <EmptyTitle>{empty_label}</EmptyTitle>
                 {!!message && <EmptyDescription>{message}</EmptyDescription>}
             </EmptyHeader>
             {!!onNew && (

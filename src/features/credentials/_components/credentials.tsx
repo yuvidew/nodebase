@@ -31,6 +31,7 @@ export const CredentialsView = () => {
             message="You haven't created any credential yet. Get started by creating your first credentials"
             onNew={handleCreate}
             label='Add credential'
+            empty_label='No credential'
         />
     )
 }
