@@ -75,19 +75,48 @@ pnpm install
 Create a `.env` file in the project root:
 
 ```env
-DATABASE_URL="your-neon-database-url"
-NEXT_PUBLIC_APP_URL="http://localhost:3000"
+# Database
+DATABASE_URL=
 
-# AI Providers
-OPENAI_API_KEY=""
-ANTHROPIC_API_KEY=""
-GEMINI_API_KEY=""
+# Better Auth
+BETTER_AUTH_SECRET=
+BETTER_AUTH_URL=
 
-# Integrations
-SLACK_BOT_TOKEN=""
-DISCORD_BOT_TOKEN=""
-STRIPE_SECRET_KEY=""
-GOOGLE_FORM_ID=""
+# Google Generative AI
+GOOGLE_GENERATIVE_AI_API_KEY=
+
+# OpenAI
+OPENAI_API_KEY=
+
+# Anthropic
+ANTHROPIC_API_KEY=
+
+# Inngest (event + signing keys)
+INNGEST_EVENT_KEY=
+INNGEST_SIGNING_KEY=
+
+# Sentry
+SENTRY_AUTH_TOKEN=
+
+# Polar
+POLAR_ACCESS_TOKEN=
+POLAR_SUCCESS_URL=
+
+# App URL
+NEXT_PUBLIC_APP_URL=
+NGROK_URL=
+
+# Encryption
+ENCRYPTION_KEY=
+
+# GitHub Auth
+GITHUB_CLIENT_ID=
+GITHUB_CLIENT_SECRET=
+
+# Google Auth
+GOOGLE_CLIENT_ID=
+GOOGLE_CLIENT_SECRET=
+
 ```
 
 ### 4️⃣ Push Prisma schema
