@@ -6,7 +6,7 @@ import { requireUnAuth } from "@/lib/auth-utils";
 const SignInPage = async() => {
     await requireUnAuth()
     return (
-        <SignInForm/>
+    <SignInForm/>
     )
 }
 
